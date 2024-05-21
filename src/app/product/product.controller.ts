@@ -9,7 +9,7 @@ const getProducts = async (req: Request, res: Response) => {
             res.status(200).json({
                 "success": true,
                 "message": "Products fetched successfully!",
-                data: data
+                data: data.length
             })
         } else {
             res.status(200).json({
@@ -54,7 +54,34 @@ const getSingleProduct = async (req: Request, res: Response) => {
     }
 }
 
+const deleteProduct = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params
+        const data = await productServices.deleteProductService(productId);
+
+        if (data.deletedCount > 0) {
+            res.status(200).json({
+                "success": true,
+                "message": "Product deleted successfully!",
+                "data": null
+            })
+        } else {
+            res.status(200).json({
+                "success": false,
+                "message": "Something went wrong!! for delete the product",
+                "data": null
+            })
+        }
+    } catch (error: any) {
+        res.status(404).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
 export const productController = {
     getProducts,
-    getSingleProduct
+    getSingleProduct,
+    deleteProduct
 }

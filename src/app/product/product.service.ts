@@ -6,11 +6,15 @@ const getProductsService = async () => {
 }
 
 const getSingleProductService = async (_id: string) => {
-    const result = await ProductModel.findOne({_id});
+    const result = await ProductModel.findOne({ _id });
     return result
 }
-
+const deleteProductService = async (_id: string) => {
+    const result = await ProductModel.deleteOne({ _id });
+    return result;
+}
 export const productServices = {
     getProductsService,
-    getSingleProductService
+    getSingleProductService,
+    deleteProductService
 }
