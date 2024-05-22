@@ -4,7 +4,8 @@ import productValidationSchema from "./product.validation";
 
 const getProducts = async (req: Request, res: Response) => {
   try {
-    const data = await productServices.getProductsService();
+    const { searchTerm } = req.query;
+    const data = await productServices.getProductsService(searchTerm);
     res.status(200).json({
       success: true,
       message: "Products fetched successfully!",
@@ -74,7 +75,7 @@ const deleteProduct = async (req: Request, res: Response) => {
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
+    const productData = req.body;
     const validData = productValidationSchema.parse(productData);
     const data = await productServices.createProductService(validData);
 
@@ -94,7 +95,7 @@ const createProduct = async (req: Request, res: Response) => {
 
 const updateProduct = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
+    const productData = req.body;
     const { productId } = req.params;
     const prevProd = await productServices.getSingleProductService(productId);
     console.log(productData, prevProd);

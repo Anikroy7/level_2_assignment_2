@@ -20,4 +20,6 @@ app.get("/", async (req: Request, res: Response) => {
   res.send({ message: "okay" });
 });
 
+
+
 export default app;

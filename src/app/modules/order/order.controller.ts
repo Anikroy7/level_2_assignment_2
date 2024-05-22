@@ -1,33 +1,65 @@
 
-import { Order } from "./Order.interface";
+import { Request, Response } from "express";
 import { orderService } from "./order.service";
+import orderValidationSchema from "./order.validation";
+import { productServices } from "../product/product.service";
 
-const createOrder = async (req: Request, res: Response) => {
+
+
+const getOrders = async (req: Request, res: Response) => {
     try {
-        const orderData:any = req.body;
-        const data = await orderService.createOrderService(orderData);
 
-        if (data) {
-            res.status(201).json({
-                "success": true,
-                "message": "Products fetched successfully!",
-                data: data
-            })
-        } else {
-            res.status(200).json({
-                "success": false,
-                "message": "Failed to fetched Products!",
-                data: data
-            })
-        }
+        const { email } = req.query
+        const data = await orderService.getOrderService(email);
+        res.status(201).json({
+            "success": true,
+            "message": !email ? "Orders fetched successfully!" : "Orders fetched successfully for user email!",
+            data: data
+        })
+
+
     } catch (error: any) {
         res.status(404).json({
             success: false,
-            message: error.message
-        })
+            message: "Something went wrong!",
+            error,
+        });
     }
 }
 
-export const orderController ={
-    createOrder
+
+const createOrder = async (req: Request, res: Response) => {
+    try {
+        const orderData: any = req.body;
+        const validData = orderValidationSchema.parse(orderData);
+
+        const isProductExits = await productServices.getSingleProductService(validData.productId)
+        console.log(isProductExits, validData.productId);
+
+        if (isProductExits) {
+            const data = await orderService.createOrderService(validData);
+            res.status(201).json({
+                "success": true,
+                "message": "Order created successfully!",
+                data: data
+            })
+        } else {
+            res.status(201).json({
+                "success": false,
+                "message": "Can't find the product!",
+            })
+        }
+
+    } catch (error: any) {
+        res.status(404).json({
+            success: false,
+            message: "Something went wrong!",
+            error,
+        });
+    }
+}
+
+export const orderController = {
+    createOrder,
+    getOrders
 }

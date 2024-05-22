@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { Order } from "./Order.interface";
+import { Order } from "./order.interface";
 
 const orderSchema = new Schema<Order>({
     email: {

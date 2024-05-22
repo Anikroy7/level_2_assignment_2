@@ -1,7 +1,10 @@
 import { Product } from "./product.interface";
 import ProductModel from "./product.model";
 
-const getProductsService = async () => {
+const getProductsService = async (searchTerm: string | any) => {
+  if (searchTerm) {
+    return await ProductModel.find({ name: { $regex: new RegExp(searchTerm, 'i') } });
+  }
   const result = await ProductModel.find();
   return result;
 };

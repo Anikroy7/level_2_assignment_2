@@ -1,4 +1,3 @@
-import mongodb = require("mongodb");
 
 export type Order = {
     email: string;
