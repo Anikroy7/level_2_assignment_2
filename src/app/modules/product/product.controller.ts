@@ -107,7 +107,7 @@ const updateProduct = async (req: Request, res: Response) => {
     const validData = productValidationSchema.parse(newProduct);
     const data = await productServices.updateProductService(
       productId,
-      validData
+      validData,
     );
 
     res.status(200).json({

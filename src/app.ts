@@ -16,10 +16,12 @@ app.use("/api/products", productRouter);
 //For Orders
 app.use("/api/orders", orderRouter);
 
-app.get("/", async (req: Request, res: Response) => {
-  res.send({ message: "okay" });
-});
 
-
+app.get('*', (req: Request, res: Response) => {
+  res.status(404).json({
+    "success": false,
+    "message": "Route not found"
+  });
+})
 
 export default app;

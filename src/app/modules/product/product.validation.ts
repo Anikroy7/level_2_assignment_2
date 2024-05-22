@@ -16,14 +16,14 @@ const productValidationSchema = z.object({
     }),
     {
       message: "Invalid variants!",
-    }
+    },
   ),
   inventory: z.object(
     {
       quantity: z.number(),
       inStock: z.boolean(),
     },
-    { message: "Invalid inventory!!" }
+    { message: "Invalid inventory!!" },
   ),
 });
 
