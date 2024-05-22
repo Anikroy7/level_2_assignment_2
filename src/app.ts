@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import productRouter from "./app/modules/product/product.route";
 import orderRouter from "./app/modules/order/order.route";
@@ -17,6 +17,12 @@ app.use("/api/products", productRouter);
 app.use("/api/orders", orderRouter);
 
 
+app.get('/', (req: Request, res: Response) => {
+  res.status(404).json({
+    "success": "Okay",
+  });
+})
+
 app.get('*', (req: Request, res: Response) => {
   res.status(404).json({
     "success": false,
@@ -24,4 +30,13 @@ app.get('*', (req: Request, res: Response) => {
   });
 })
 
+
+//Global Middleware
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  const errorObj = {
+    message: err?.message || "Something went wrong",
+    status: err?.status || 500,
+  };
+  res.status(errorObj.status).json(errorObj);
+});
 export default app;
