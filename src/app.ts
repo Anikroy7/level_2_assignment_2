@@ -1,20 +1,23 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
-import ProductModel from "./app/product/product.model";
-import productRouter from "./app/product/product.route";
+import productRouter from "./app/modules/product/product.route";
+import orderRouter from "./app/modules/order/order.route";
 const app: Application = express();
 
 // parser middleware
 app.use(express.json());
 app.use(cors());
 
-
 //routes
-app.use('/api/products', productRouter)
+
+//For products
+app.use("/api/products", productRouter);
+
+//For Orders
+app.use("/api/orders", orderRouter);
 
 app.get("/", async (req: Request, res: Response) => {
-  const data = await ProductModel.find();
-  res.send(data);
+  res.send({ message: "okay" });
 });
 
 export default app;

@@ -33,16 +33,16 @@ const productSchema = new Schema<Product>({
   ],
   inventory: {
     quantity: {
-      type: String,
+      type: Number,
       required: true,
     },
     inStock: {
-      type: Number,
+      type: Boolean,
       required: true,
     },
   },
 });
 
-const ProductModel = mongoose.model("Product", productSchema);
+const ProductModel = mongoose.model<Product>("Product", productSchema);
 
 export default ProductModel;
