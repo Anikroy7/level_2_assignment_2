@@ -60,7 +60,7 @@ const deleteProduct = async (req: Request, res: Response) => {
     } else {
       res.status(200).json({
         success: false,
-        message: "Something went wrong!! for delete the product",
+        message: "Product not found!",
         data: null,
       });
     }
