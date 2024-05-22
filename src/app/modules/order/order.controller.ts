@@ -66,10 +66,11 @@ const createOrder = async (req: Request, res: Response) => {
         product._id.toString(),
         newProduct,
       );
+      const data =await orderService.createOrderService(validData)
       res.status(201).json({
         success: true,
         message: "Order created successfully!",
-        data: { product: product._id, newQuantity },
+        data: data,
       });
     }
   } catch (error: any) {
