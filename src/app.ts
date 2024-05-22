@@ -16,20 +16,18 @@ app.use("/api/products", productRouter);
 //For Orders
 app.use("/api/orders", orderRouter);
 
-
-app.get('/', (req: Request, res: Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.status(404).json({
-    "success": "Okay",
+    success: "Okay",
   });
-})
+});
 
-app.get('*', (req: Request, res: Response) => {
+app.get("*", (req: Request, res: Response) => {
   res.status(404).json({
-    "success": false,
-    "message": "Route not found"
+    success: false,
+    message: "Route not found",
   });
-})
-
+});
 
 //Global Middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

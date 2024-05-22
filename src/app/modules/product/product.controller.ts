@@ -98,12 +98,10 @@ const updateProduct = async (req: Request, res: Response) => {
     const productData = req.body;
     const { productId } = req.params;
     const prevProd = await productServices.getSingleProductService(productId);
-    console.log(productData, prevProd);
     const newProduct = {
       ...prevProd?.toObject(),
       ...productData,
     };
-    console.log("new product", newProduct);
     const validData = productValidationSchema.parse(newProduct);
     const data = await productServices.updateProductService(
       productId,

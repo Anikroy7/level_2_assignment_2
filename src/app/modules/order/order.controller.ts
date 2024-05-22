@@ -40,30 +40,32 @@ const createOrder = async (req: Request, res: Response) => {
     );
 
     if (!product) {
-      // return 
+      // return
       // const data = await orderService.createOrderService(validData);
       res.status(201).json({
         success: false,
         message: "Can't find the product!",
       });
-
     } else {
       if (validData.quantity > product.inventory.quantity) {
         return res.status(403).json({
-          "success": false,
-          "message": "Insufficient quantity available in inventory"
+          success: false,
+          message: "Insufficient quantity available in inventory",
         });
       }
       const newQuantity = product.inventory.quantity - validData.quantity;
       const newInventory = {
         quantity: newQuantity,
-        inStock: newQuantity > 0
-      }
+        inStock: newQuantity > 0,
+      };
       const newProduct = {
         ...product?.toObject(),
-        inventory: newInventory
-      }
-      await productServices.updateProductService(product._id.toString(), newProduct)
+        inventory: newInventory,
+      };
+      await productServices.updateProductService(
+        product._id.toString(),
+        newProduct,
+      );
       res.status(201).json({
         success: true,
         message: "Order created successfully!",
